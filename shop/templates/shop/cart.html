@@ -1,0 +1,44 @@
+{% extends 'shop/base.html' %}
+
+
+{% block content %}
+
+
+    <div class="container">
+
+        <div class="row">
+            <div class="col-3 col-sm-3 col-md-2 col-lg-1 col-xl-1">
+            </div>
+            <div class="col-7 col-sm-7 col-md-4 col-lg-2 col-xl-3">
+
+
+                <form action="{% url 'cart' %}" method="post">
+                    {% csrf_token %}
+                    <div class="row">
+                        {{ form.as_ul }}
+                        <input type="submit" value="Обновить информацию">
+                    </div>
+                    <div class="row">
+                        {{ formset.management_form }}
+                        {% for position_form in formset %}
+                            <h4>{{ position_form.instance.product }}</h4>
+                            {{ position_form.as_ul }}
+                        {% endfor %}
+                    </div>
+                    <input type="submit" value="Обновить заказ">
+                </form>
+
+
+                <div class="row">
+                    <form action="{% url 'finish' %}">
+                        {% csrf_token %}
+                        <input type="submit" value="Закончить заказ">
+                    </form>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,95 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block content %}
+    <br>
+    <h1 align="center">Корзина</h1>
+    <br>
+    <form id="cart-form" action="{% url 'cart' %}" method="post">
+        <div class="container">
+            <div class="form-group">
+                <div class="row">
+                    {% csrf_token %}
+                    <div class="col-1 "></div>
+                    <div class="col-10 form-control">
+                        {% if user.is_authenticated %}
+                            <label for="exampleFormControlInput1">Имя</label><br>
+                            <input type="text" name="user_name" placeholder="Имя" required value="{{ user.first_name }}"><br>
+                            <label for="exampleFormControlInput1">Фамилия</label><br>
+                            <input type="text" name="user_surname" placeholder="Фамилия" required value="{{ user.last_name }}">
+                            <br>
+                            <label for="exampleFormControlInput1">Номер телефона</label><br>
+                            <input type="tel" name="user_phone" placeholder="Номер телефона" required value="{{ user.profile.phone_number }}"><br>
+                            <label for="exampleFormControlInput1">Адрес</label><br>
+                            <input type="text" style="width: 90%;" name="address" placeholder="Адрес" required value="{{ user.profile.address }}"><br>
+                            <b>Сумма заказа: <p id="price"></p></b>
+                        {% else %}
+                            <label for="exampleFormControlInput1">Имя</label><br>
+                            <input type="text" name="user_name" placeholder="Имя" required value="{{ user.first_name }}"><br>
+                            <label for="exampleFormControlInput1">Фамилия</label><br>
+                            <input type="text" name="user_surname" placeholder="Фамилия" required value="{{ user.last_name }}">
+                            <br>
+                            <label for="exampleFormControlInput1">Номер телефона</label><br>
+                            <input type="tel" name="user_phone" placeholder="Номер телефона" required ><br>
+                            <label for="exampleFormControlInput1">Адрес</label><br>
+                            <input type="text" style="width: 90%;" name="address" placeholder="Адрес" required ><br>
+                            <br>
+                            <b>Сумма заказа: <p id="price"> {{ price }} ₽</p></b>
+                        {% endif %}
+                        <div class="col-1"></div>
+                    </div>
+                    <div class="col-12">
+                        <hr>
+                    </div>
+
+                    {% for tovar in tovaru %}
+
+                        <div class="product col-12">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-2"></div>
+
+                                    <div class="col-6">
+                                        <img src="{{ tovar.product.image.url }}" alt="{{ tovar.product.title }}"
+                                             height="100"
+                                             width="100">
+                                        <br>
+                                        <div class="price"> {{ tovar.product.price }} ₽</div>
+                                        <br>
+                                        {{ tovar.product.title }}
+                                    </div>
+
+                                    <div class="col-4">
+                                        <input type="hidden" name="product_name" required
+                                               value="{{ tovar.product.title }}">
+                                        <input class="count" min="0" type="number"
+                                               name="count_{{ tovar.product.title }}"
+                                               style="width: 60px;"
+                                               value="{{ tovar.count }}"><br>
+                                        {#                          <a href="/add/">#}
+                                        <input class="delete-button" style="margin-top: 10%" type="submit"
+                                               name="delete_{{ tovar.product.title }}"
+                                               value="Удалить">
+                                        {#                            </a>#}
+                                        <br>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <hr>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+
+                    <div class="col-4"></div>
+                    <div class="col-4"><input type="submit" value="Заказать" name="close_order"></div>
+                    <div class="col-4"></div>
+                </div>
+
+            </div>
+        </div>
+    </form>
+
+    <script src="{% static "/cart.js" %}"></script>
+{% endblock %}

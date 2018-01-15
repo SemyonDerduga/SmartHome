@@ -1,0 +1,35 @@
+{% extends 'shop/base.html' %}
+
+{% block content %}
+    <br>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h1>{{ product.title }}</h1>
+            </div>
+            <br>
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                <img src="{{ product.image.url }}" alt="{{ product.title }}" height="300" width="300">
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6"
+            ">
+            <br>
+            <br>
+            <h2>Цена:</h2>
+            <h2>{{ product.price }} ₽</h2>
+            <br>
+            <br>
+            <form action="{% url 'add_to_cart' %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="product" value="{{ product.id }}">
+                <input class="btn btn-lg btn-success" type="submit" value="Add to cart">
+            </form>
+        </div>
+        <div class="col-">
+            <br>
+            <br>
+            <p>{{ product.description|linebreaksbr }}</p>
+        </div>
+    </div>
+    </div>
+{% endblock %}

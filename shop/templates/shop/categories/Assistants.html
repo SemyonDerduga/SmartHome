@@ -1,0 +1,37 @@
+{% extends 'shop/base.html' %}
+
+{% block content %}
+    <br>
+    <h1 align="center">Умные голосовые ассистенты</h1>
+    <br>
+
+    <div class="container-fluid">
+        <div class="row justify-content-md-center">
+            <div class="col-sm-0 col-md-2 col-lg-2 col-xl-2"></div>
+            <div class="col-sm-12 col-md-10 col-lg-10 col-xl-10" style="height: 50px;">
+                Сортировать:
+                <a href="/assistant_popularity/" class="btn btn-sm btn-default">по популярности</a>
+                <a href="/assistant_price/" class="btn btn-sm btn-default">по цене</a>
+                <a href="/assistants/" class="btn btn-sm btn-primary">по новизне</a>
+            </div>
+
+            {% for prod in product %}
+                <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3" style="border: 1px solid ;
+            border-color: #d6d6d6;">
+                    <a href="{% url 'product_detail' pk=prod.pk %}">
+                        <p align="center"><img src="{{ prod.image.url }}" alt="{{ prod.title }}" height="200"
+                                               width="200"></p>
+                        <h5 align="center">{{ prod.title }}</h5>
+                    </a>
+                    <h6 align="center">{{ prod.price }} ₽</h6>
+                </div>
+            {% endfor %}
+            {% if quantity == 1 %}
+                <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3"></div>
+                <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3"></div>
+            {% elif quantity == 2 %}
+                <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3"></div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
